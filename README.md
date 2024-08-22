@@ -1,14 +1,14 @@
 # TenMax Mobile SDK for Android
 
-This repository provides the guideline and examples to demostrate how to use TenMax Mobile SDK to show AD on your Android app.
+This repository provides the guidelines and examples to demonstrate how to use TenMax Mobile SDK to show AD on your Android app.
 
 ## Prerequisites
 
-Before using the SDK, please contact TenMax (contact@tenmax.io) to
+Before using the SDK, please contact TenMax (tenmax-eco-ssp-bd@tenmax.io) to
 
-- register you app bundle ID
-- obtain you app publisher ID
-- a user name and an read-only access token to import the SDK from GitHub Packages
+- register your app bundle ID
+- obtain your app publisher ID
+- a user name and a read-only access token to import the SDK from GitHub Packages
 
 The first two values would be used to initiate the SDK.
 
@@ -34,7 +34,7 @@ maven {
 }
 ```
 
-Add the `gpr.user` and `gpr.token` (obtained from [Prerequisites](#prerequisites)) into `local.propeerties` and make sure this file not committed to your repository. Please pass these two values with the secret environment variables (`GITHUB_ACTOR` and `GITHUB_TOKEN`) on the CI server.
+Add the `gpr.user` and `gpr.token` (obtained from [Prerequisites](#prerequisites)) into `local.propeerties` and make sure this file is not committed to your repository. Please pass these two values with the secret environment variables (`GITHUB_ACTOR` and `GITHUB_TOKEN`) on the CI server.
 
 ```
 gpr.user=xxx
@@ -97,23 +97,29 @@ public class DemoApplication extends Application {
 }
 ```
 
-If you do not initiate the SDK, every call to show ADs, the SDK would give you an error. The SDK initiation would load the AD information from the TenMax's server and try to obtain the Android advertising ID (AAID) for you. Now, you are ready to show AD.
+If you do not initiate the SDK, every call to show ADs, the SDK will give you an error. The SDK initiation would load the AD information from TenMax's server and try to obtain the Android advertising ID (AAID) for you. Now, you are ready to show AD.
 
 ## Show ADs
 
 ### Interstitial AD
 
-First, let show an interstitial AD (fullscreen AD) when your first activity started. Assume your application's `MainActivity` has three tabs: `HomeFragment`, `DashboardFragment`, and `NotificationFragment` (a sample project created by Android Studio). In the `HomeFragment`, add following lines to show an interstitial AD when Home fragment resumed:
+First, let's show an interstitial AD (fullscreen AD) when your first activity started. Assume your application's `MainActivity` has three tabs: `HomeFragment`, `DashboardFragment`, and `NotificationFragment` (a sample project created by Android Studio). In the `HomeFragment`, add the following lines to show an interstitial AD when Home fragment resumed:
 
 ```java
 public class HomeFragment extends Fragment {
 
-    private TenMaxAdDisposable fullscreenAd;
+    private TenMaxAd fullscreenAd;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // other view setup code
+        this.fullscreenAd = interstitialAd("{interstitial-space-id}", this.getActivity());
+        return root;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        this.fullscreenAd = presentAd("{interstitial-space-id}", this.getActivity());
+        this.fullscreenAd.show();
     }
 
     @Override
@@ -126,11 +132,11 @@ public class HomeFragment extends Fragment {
 
 ```
 
-The AD presentation is asynchronous, thus, please keep the `TenMaxAdDisposable` object returned from the `presentAd` method. You can dispose (cancel) the presentation when the user switch to other tabs by calling `cleanAd` method (or calling `disposable.dipose()`). The SDK would cancel the presentation (if not presented yet) or remove the presentation and then clean up resources to reduce the memory usage.
+The AD presentation is asynchronous, thus, please keep the `TenMaxAd` object returned from the `interstitialAd` method. You can dispose (cancel) the presentation when the user switches to other tabs by calling `cleanAd` method (or calling `ad.dipose()`). The SDK would cancel the presentation (if not presented yet) or remove the presentation and then clean up resources to reduce memory usage.
 
 ### Banner AD
 
-You can show a banner AD on top of the screen or bottom of the screen. Even more, you can show both top and bottom banner on the same screen. However, the relationship between the banner and your app's UI is up to you. For example, you can let the top banner is hover on your app's UI. Thus, you need to add a container in your layout file to determine the relationship, like this.
+You can show a banner AD on top of the screen or bottom of the screen. Even more, you can show both the top and bottom banners on the same screen. However, the relationship between the banner and your app's UI is up to you. For example, you can let the top banner hover on your app's UI. Thus, you need to add a container in your layout file to determine the relationship, like this.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -156,18 +162,24 @@ You can show a banner AD on top of the screen or bottom of the screen. Even more
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-Back to your code, call the `showBannerAd` method to let SDK show the banner AD in the specified container.
+Back to your code, call the `bannerAd` method to let SDK create the banner AD in the specified container.
 
 ```java
 public class NotificationsFragment extends Fragment {
 
-    private TenMaxAdDisposable topBannerAd;
+    private TenMaxAd topBannerAd;
     private FragmentNotificationsBinding binding;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // other view setup code
+        this.topBannerAd = bannerAd("{banner-space-id}", this.getActivity(), this.binding.topBanner1, top);
+        return root;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        this.topBannerAd = showBannerAd("{banner-space-id}", this.getActivity(), this.binding.topBanner1, TenMaxBannerPosition.top);
+        this.topBannerAd.show();
     }
 
     @Override
@@ -179,11 +191,11 @@ public class NotificationsFragment extends Fragment {
 }
 ```
 
-Yes, you decide the container's position in the layout file, but you still need to provide the position information (`TenMaxBannerPosition.top`) when calling `showBannerAd`. The SDK would use this information to avoid duplication (see [Duplication Detection](#duplication-detection)).
+Yes, you decide the container's position in the layout file, but you still need to provide the position information (`TenMaxBannerPosition.top`) when calling `bannerAd`. The SDK would use this information to avoid duplication (see [Duplication Detection](#duplication-detection)).
 
 ### Inline AD
 
-To embed an inline AD into your app, you need to add a container into your layout file. For example, in the `fragment_dashboard.xml`, add a `FrameLayout` as the container and setup its layout. As shown, it uses `wrap_content` as `layout_width` and `layout_height` to show a zero-size container, uses `center_horizontal` as `layout_gravity` to centerize the container, and then sets `paddingBottom` to `10dp` to give some space to other UI elements.
+To embed an inline AD into your app, you need to add a container to your layout file. For example, in the `fragment_dashboard.xml`, add a `FrameLayout` as the container and setup its layout. As shown, it uses `wrap_content` as `layout_width` and `layout_height` to show a zero-size container, uses `center_horizontal` as `layout_gravity` to centerize the container, and then sets `paddingBottom` to `10dp` to give some space to other UI elements.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -206,18 +218,23 @@ To embed an inline AD into your app, you need to add a container into your layou
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-In your code, use the `embedAd` method to embed the AD into the container. Then, the SDK would resize your container when the AD is loaded and ready to show.
+In your code, use the `inlineAd` method to embed the AD into the container. Then, the SDK would resize your container when the AD is loaded and ready to show.
 
 ```java
 public class DashboardFragment extends Fragment {
 
-    private TenMaxAdDisposable inlineAd;
+    private TenMaxAd inlineAd;
     private FragmentDashboardBinding binding;
 
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // other view setup code
+        this.inlineAd = inlineAd("{inline-space-id}", this.getActivity(), this.binding.inlineAd);
+        return root;
+    }
     @Override
     public void onResume() {
         super.onResume();
-        this.inlineAd = embedAd("{inline-space-id}", this.getActivity(), this.binding.inlineAd);
+        this.inlineAd.show();
     }
 
     @Override
@@ -233,17 +250,17 @@ public class DashboardFragment extends Fragment {
 
 ### Timing and Naming Convention
 
-AD on different pages would have different prices. To collect needed information, TenMax Mobile SDK would monitor your application and fragment lifecycle. Thus, to aovid disturbing infomration collection, please follow these convention:
+AD on different pages would have different prices. To collect needed information, TenMax Mobile SDK would monitor your application and fragment lifecycle. Thus, to avoid disturbing information collection, please follow these conventions:
 
 - Always show ADs when the activity or fragment resumed (`onResume`) to ensure the size layout is already finished
-- Give unique name to the fragment that plays the role like a page, e.g., `HomeFragment`, `DashboardFragment`, or `NotificationsFragment` in the previous samples.
+- Give a unique name to the fragment that plays the role of a page, e.g., `HomeFragment`, `DashboardFragment`, or `NotificationsFragment` in the previous samples.
 
-If you do not follow the convention and SDK can not collect the correct information, the SDK would refuse to show AD in the unexpected case.
+If you do not follow the convention and SDK can not collect the correct information, the SDK will refuse to show AD in the unexpected case.
 
 ### Callback and Listener
-Each method that show AD has two optional parameters: listener and callback. The callback would be called immediately when the specified space ID is found or something wrong happened. You can provide the callback to know what happened during the setup.
+Each method that shows AD has two optional parameters: listener and callback. The callback would be called immediately when the specified space ID is found or something wrong happened. You can provide a callback to know what happened during the setup.
 
-You can provide the listener to listen all the events of the entire presentation lifecycle. Here is a simple listener to listen three important events:
+You can provide the listener to listen all the events of the entire presentation lifecycle. Here is a simple listener to listen to three important events:
 - `adViewableEventSent` - the user saw the AD for 1 second, and SDK would send viewable event to the TenMax server.
 - `adLoadingTimeout` - the AD loading timeout (maybe network is too slow) so the presentation is cancelled.
 - `adNotFound` - can not find an AD for the specified space so the presentation is cancelled.
@@ -277,11 +294,11 @@ public class SimpleAdSessionListener implements TenMaxAdSessionListener {
 
 ### Duplication Detection
 
-For most of ADs, the presentation must be unique on page. Thus, TenMax Mobile SDK would track the presentation requests. If SDK found the duplication, it would show the warning message for the app developer to fix the case. Also, TenMax would review your app to ensure you follow TenMax's rules.
+For most ADs, the presentation must be unique on the page. Thus, TenMax Mobile SDK would track the presentation requests. If SDK found the duplication, it would show a warning message for the app developer to fix the case. Also, TenMax would review your app to ensure you follow TenMax's rules.
 
 ## Issues and Contact
 
-If you have any issue when using TenMax Mobile SDK, please contact contact@tenmax.io. We would help you as soon as possible.
+If you have any issue when using TenMax Mobile SDK, please contact tenmax-eco-ssp-bd@tenmax.io. We will help you as soon as possible.
 
 ## License
 
