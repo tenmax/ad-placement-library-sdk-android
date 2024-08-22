@@ -26,7 +26,7 @@ Add the following lines into the `repositories` section in your project gradle s
 
 ```gradle
 maven {
-    url = uri("https://maven.pkg.github.com/dbi1463/mobile-sdk")
+    url = uri("https://maven.pkg.github.com/tenmax/ad-placement-library-sdk-android")
     credentials {
         username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
         password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
@@ -63,7 +63,7 @@ dependencies {
 }
 ```
 
-In this way, you do not need the user name and token, but you need to download the new AAR file if the SDK is updated. You can see the setting in the [feat/build-with-aar](https://github.com/dbi1463/mobile-sdk/tree/feat/build-with-aar) branch.
+In this way, you do not need the user name and token, but you need to download the new AAR file if the SDK is updated. You can see the setting in the [feat/build-with-aar](https://github.com/tenmax/ad-placement-library-sdk-android/tree/feat/build-with-aar) branch.
 
 ### SDK Configuration
 
