@@ -37,13 +37,6 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.github.com/tenmax/ad-placement-library-sdk-android")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
 }
 
 dependencies {

@@ -8,48 +8,14 @@ Before using the SDK, please contact TenMax (tenmax-eco-ssp-bd@tenmax.io) to
 
 - register your app bundle ID
 - obtain your app publisher ID
-- a user name and a read-only access token to import the SDK from GitHub Packages
 
-The first two values would be used to initiate the SDK.
+These two values would be used to initiate the SDK.
 
 ## Get Started
 
 Follow the steps to use the TenMax Mobile SDK:
 
 ### Install SDK
-
-There are two ways to install the SDK, you can choose one to meet your case.
-
-#### Import from GitHub Packages
-
-Add the following lines into the `repositories` section in your project gradle setting  (`<project-root>/<your-app>/build.gradle.kts`).
-
-```gradle
-maven {
-    url = uri("https://maven.pkg.github.com/tenmax/ad-placement-library-sdk-android")
-    credentials {
-        username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-        password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
-    }
-}
-```
-
-Add the `gpr.user` and `gpr.token` (obtained from [Prerequisites](#prerequisites)) into `local.propeerties` and make sure this file is not committed to your repository. Please pass these two values with the secret environment variables (`GITHUB_ACTOR` and `GITHUB_TOKEN`) on the CI server.
-
-```
-gpr.user=xxx
-gpr.token=xxx
-```
-
-Then, add the library to your project dependencies:
-
-```gradle
-dependencies {
-    implementation("io.tenmax:mobile-sdk:1.0.0")
-}
-```
-
-#### Import AAR
 
 You can download the AAR file from the release and put the AAR file into `<project-root>/<your-app>/libs`. However, the SDK needs other libraries (GSON, Retrofit, and AD identifier) to work, thus, please add the SDK and required libraries together:
 
@@ -63,7 +29,7 @@ dependencies {
 }
 ```
 
-In this way, you do not need the user name and token, but you need to download the new AAR file if the SDK is updated. You can see the setting in the [feat/build-with-aar](https://github.com/tenmax/ad-placement-library-sdk-android/tree/feat/build-with-aar) branch.
+In this way, you need to download the new AAR file if the SDK is updated.
 
 ### SDK Configuration
 
@@ -231,6 +197,7 @@ public class DashboardFragment extends Fragment {
         this.inlineAd = inlineAd("{inline-space-id}", this.getActivity(), this.binding.inlineAd);
         return root;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -302,4 +269,4 @@ If you have any issue when using TenMax Mobile SDK, please contact tenmax-eco-ss
 
 ## License
 
-??
+TenMax
