@@ -17,7 +17,16 @@ Follow the steps to use the TenMax Mobile SDK:
 
 ### Install SDK
 
-You can download the AAR file from the release and put the AAR file into `<project-root>/<your-app>/libs`. However, the SDK needs other libraries (GSON, Retrofit, and AD identifier) to work, thus, please add the SDK and required libraries together:
+You can download the AAR file from the release and put the AAR file into `<project-root>/<your-app>/libs` and let Android Studio import it.
+
+However, the SDK needs other libraries (Gson, Retrofit, and Google Play AD identifier) to work, thus, please also add required libraries:
+
+- Gson (`com.google.code.gson:gson:2.11.0`)
+- Retrofit (`com.squareup.retrofit2:retrofit:2.11.0`)
+- Gson Converter (`com.squareup.retrofit2:converter-gson:2.11.0`)
+- Google Play AD Identifier (`com.google.android.gms:play-services-ads-identifier:18.1.0`)
+
+After importing those libraries, you should see something like this in your `build.gradle.kts`:
 
 ```gradle
 dependencies {
