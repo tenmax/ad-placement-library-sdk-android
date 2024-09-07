@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import io.tenmax.mobilesdk.TenMaxAd;
-import io.tenmax.mobilesdk.TenMaxMobileSDK;
+import io.tenmax.sdkdemo.SupportedSpaces;
 import io.tenmax.sdkdemo.databinding.FragmentDashboardBinding;
 import io.tenmax.sdkdemo.ui.SimpleAdSessionListener;
 import io.tenmax.sdkdemo.ui.SimpleInitiationCallback;
@@ -30,7 +30,7 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
         SimpleAdSessionListener listener = new SimpleAdSessionListener(this.getContext());
         SimpleInitiationCallback callback = new SimpleInitiationCallback(this.getContext());
-        this.inlineAd = inlineAd("f95fc92d4a824a41", this.getActivity(), this.binding.inlineAd, listener, callback);
+        this.inlineAd = inlineAd(SupportedSpaces.inlineId, this.getActivity(), this.binding.inlineAd, listener, callback);
         return root;
     }
 

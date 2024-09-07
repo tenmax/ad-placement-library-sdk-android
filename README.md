@@ -42,13 +42,12 @@ In this way, you need to download the new AAR file if the SDK is updated.
 
 ### SDK Configuration
 
-Open your app's manifest file (`AndroidManifest.xml`) and add `tenmax-publisher-id` and `tenmax-bundle-id` as the application's metadata. The publisher ID is provided by TenMax and the bundle ID must be the same as the value you registered in the [Prerequisites](#prerequisites) section.
+Open your app's manifest file (`AndroidManifest.xml`) and add `tenmax-publisher-id` as the application's metadata. The publisher ID is provided by TenMax. Note that the SDK would get the bundle ID for you, but you must ensure that is the same as the value you registered in the [Prerequisites](#prerequisites) section.
 
 ```xml
 <manifest>
     <application>
         <meta-data android:name="tenmax-publisher-id" android:value="{tenmax-publisher-id}" />
-        <meta-data android:name="tenmax-bundle-id" android:value="{app-bundle-id}" />
     </application>
 </manifest>
 ```

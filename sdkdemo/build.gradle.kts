@@ -7,7 +7,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.tenmax.sdkdemo"
+        applicationId = "com.tenmax.sdkdemo.public"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

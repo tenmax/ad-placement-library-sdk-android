@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import io.tenmax.mobilesdk.TenMaxAd;
+import io.tenmax.sdkdemo.SupportedSpaces;
 import io.tenmax.sdkdemo.databinding.FragmentHomeBinding;
 import io.tenmax.sdkdemo.ui.SimpleAdSessionListener;
 import io.tenmax.sdkdemo.ui.SimpleInitiationCallback;
@@ -33,7 +34,7 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         SimpleAdSessionListener listener = new SimpleAdSessionListener(this.getContext());
         SimpleInitiationCallback callback = new SimpleInitiationCallback(this.getContext());
-        this.fullscreenAd = interstitialAd("d1061fb7cebc43d3", this.getActivity(), listener, callback);
+        this.fullscreenAd = interstitialAd(SupportedSpaces.interstitialId, this.getActivity(), listener, callback);
         return root;
     }
 

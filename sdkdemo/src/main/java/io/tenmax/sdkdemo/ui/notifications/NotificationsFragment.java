@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import io.tenmax.mobilesdk.TenMaxAd;
+import io.tenmax.sdkdemo.SupportedSpaces;
 import io.tenmax.sdkdemo.databinding.FragmentNotificationsBinding;
 import io.tenmax.sdkdemo.ui.SimpleAdSessionListener;
 import io.tenmax.sdkdemo.ui.SimpleInitiationCallback;
@@ -33,8 +34,8 @@ public class NotificationsFragment extends Fragment {
         View root = binding.getRoot();
         SimpleAdSessionListener listener = new SimpleAdSessionListener(this.getContext());
         SimpleInitiationCallback callback = new SimpleInitiationCallback(this.getContext());
-        this.topBannerAd = bannerAd("d2721bd68b344b1b", this.getActivity(), this.binding.topBanner1, top, listener, callback);
-        this.bottomBannerAd = bannerAd("05a60ba0ed4849a8", this.getActivity(), this.binding.bottomBanner1, bottom, listener, callback);
+        this.topBannerAd = bannerAd(SupportedSpaces.topBannerId, this.getActivity(), this.binding.topBanner1, top, listener, callback);
+        this.bottomBannerAd = bannerAd(SupportedSpaces.bottomBannerId, this.getActivity(), this.binding.bottomBanner1, bottom, listener, callback);
         return root;
     }
 

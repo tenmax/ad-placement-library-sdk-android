@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="tenmax-publisher-id" android:value="8cdae3de30" />
-        <meta-data android:name="tenmax-bundle-id" android:value="io.tenmax.sdkdemo" />
+        <meta-data android:name="tenmax-publisher-id" android:value="0fe5b5e7c1" />
     </application>
-
 </manifest>
