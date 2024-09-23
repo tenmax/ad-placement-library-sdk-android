@@ -271,6 +271,10 @@ public class SimpleAdSessionListener implements TenMaxAdSessionListener {
 
 For most ADs, the presentation must be unique on the page. Thus, TenMax Mobile SDK would track the presentation requests. If SDK found the duplication, it would show a warning message for the app developer to fix the case. Also, TenMax would review your app to ensure you follow TenMax's rules.
 
+## Google Privacy Survey for TenMax SDK
+
+Android publisher should provide the information that data their apps collect, including the data collected by third-party SDKs. For your convenience, TenMax SDK provides the information on its data collection in the [Data Collection Survey for TenMax SDK](Privacy.md).
+
 ## Issues and Contact
 
 If you have any issue when using TenMax Mobile SDK, please contact app_support@tenmax.io. We will help you as soon as possible.
