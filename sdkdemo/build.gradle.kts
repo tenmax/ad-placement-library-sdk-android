@@ -7,7 +7,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.tenmax.sdkdemo.public"
+        applicationId = "com.tenmax.sdkdemo"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -17,12 +17,48 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".public"
+            manifestPlaceholders["publisherId"] = "0fe5b5e7c1"
+            resValue("string", "interstitialId", "3644ec9ebb0d4ed4")
+            resValue("string", "inlineId", "fcc96b4975ff4357")
+            resValue("string", "topBannerId", "590bab0f1b6a482f")
+            resValue("string", "bottomBannerId", "843e0771ab4c4d9f")
+            resValue("string", "floatingId", "765c489949994641")
+        }
         release {
+            applicationIdSuffix = ".public"
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            manifestPlaceholders["publisherId"] = "0fe5b5e7c1"
+            resValue("string", "interstitialId", "3644ec9ebb0d4ed4")
+            resValue("string", "inlineId", "fcc96b4975ff4357")
+            resValue("string", "topBannerId", "590bab0f1b6a482f")
+            resValue("string", "bottomBannerId", "843e0771ab4c4d9f")
+            resValue("string", "floatingId", "765c489949994641")
+        }
+        create("cht") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".cht"
+            manifestPlaceholders["publisherId"] = "0fe5b5e7c1"
+            resValue("string", "interstitialId", "3644ec9ebb0d4ed4")
+            resValue("string", "inlineId", "fcc96b4975ff4357")
+            resValue("string", "topBannerId", "590bab0f1b6a482f")
+            resValue("string", "bottomBannerId", "843e0771ab4c4d9f")
+            resValue("string", "floatingId", "765c489949994641")
+        }
+        create("internal") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".internal"
+            manifestPlaceholders["publisherId"] = "0fe5b5e7c1"
+            resValue("string", "interstitialId", "3644ec9ebb0d4ed4")
+            resValue("string", "inlineId", "fcc96b4975ff4357")
+            resValue("string", "topBannerId", "590bab0f1b6a482f")
+            resValue("string", "bottomBannerId", "843e0771ab4c4d9f")
+            resValue("string", "floatingId", "765c489949994641")
         }
     }
     compileOptions {

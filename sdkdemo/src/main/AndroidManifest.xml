@@ -18,6 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="tenmax-publisher-id" android:value="0fe5b5e7c1" />
+        <meta-data android:name="tenmax-publisher-id" android:value="${publisherId}" />
     </application>
 </manifest>

@@ -1,14 +1,10 @@
 package io.tenmax.sdkdemo;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import io.tenmax.sdkdemo.databinding.ActivityMainBinding;
 
@@ -22,5 +18,15 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
