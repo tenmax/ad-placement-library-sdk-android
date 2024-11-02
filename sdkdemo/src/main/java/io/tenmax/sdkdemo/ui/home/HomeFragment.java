@@ -1,5 +1,11 @@
 package io.tenmax.sdkdemo.ui.home;
 
+import static io.tenmax.sdkdemo.SupportedSpaces.bottomBannerId;
+import static io.tenmax.sdkdemo.SupportedSpaces.floatingId;
+import static io.tenmax.sdkdemo.SupportedSpaces.inlineId;
+import static io.tenmax.sdkdemo.SupportedSpaces.interstitialId;
+import static io.tenmax.sdkdemo.SupportedSpaces.topBannerId;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +18,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import io.tenmax.sdkdemo.R;
-import io.tenmax.sdkdemo.SupportedSpaces;
 import io.tenmax.sdkdemo.databinding.FragmentHomeBinding;
 import io.tenmax.sdkdemo.ui.dashboard.DashboardFragment;
 
@@ -26,11 +31,11 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        this.binding.showInterstitialAd.setOnClickListener((view) -> showAd("fullscreen", SupportedSpaces.interstitialId));
-        this.binding.showInlineAd.setOnClickListener((view) -> showAd("inline", SupportedSpaces.inlineId));
-        this.binding.showTopBannerAd.setOnClickListener((view) -> showAd("topBanner", SupportedSpaces.topBannerId));
-        this.binding.showBottomBannerAd.setOnClickListener((view) -> showAd("bottomBanner", SupportedSpaces.bottomBannerId));
-        this.binding.showFloatingAd.setOnClickListener((view) -> showAd("floating", SupportedSpaces.floatingId));
+        this.binding.showInterstitialAd.setOnClickListener((view) -> showAd("fullscreen", interstitialId(getContext())));
+        this.binding.showInlineAd.setOnClickListener((view) -> showAd("inline", inlineId(getContext())));
+        this.binding.showTopBannerAd.setOnClickListener((view) -> showAd("topBanner", topBannerId(getContext())));
+        this.binding.showBottomBannerAd.setOnClickListener((view) -> showAd("bottomBanner", bottomBannerId(getContext())));
+        this.binding.showFloatingAd.setOnClickListener((view) -> showAd("floating", floatingId(getContext())));
 
         return root;
     }

@@ -34,8 +34,8 @@ public class NotificationsFragment extends Fragment {
         View root = binding.getRoot();
         SimpleAdSessionListener listener = new SimpleAdSessionListener(this.getContext());
         SimpleInitiationCallback callback = new SimpleInitiationCallback(this.getContext());
-        this.topBannerAd = bannerAd(SupportedSpaces.topBannerId, this.getActivity(), this.binding.topBanner1, top, listener, callback);
-        this.bottomBannerAd = bannerAd(SupportedSpaces.bottomBannerId, this.getActivity(), this.binding.bottomBanner1, bottom, listener, callback);
+        this.topBannerAd = bannerAd(SupportedSpaces.topBannerId(getContext()), this.getActivity(), this.binding.topBanner1, top, listener, callback);
+        this.bottomBannerAd = bannerAd(SupportedSpaces.bottomBannerId(getContext()), this.getActivity(), this.binding.bottomBanner1, bottom, listener, callback);
         return root;
     }
 

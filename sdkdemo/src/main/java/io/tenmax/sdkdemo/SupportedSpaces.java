@@ -1,10 +1,26 @@
 package io.tenmax.sdkdemo;
 
+import android.content.Context;
+
 public interface SupportedSpaces {
 
-    String interstitialId = "3644ec9ebb0d4ed4";
-    String topBannerId = "590bab0f1b6a482f";
-    String bottomBannerId = "843e0771ab4c4d9f";
-    String inlineId = "fcc96b4975ff4357";
-    String floatingId = "765c489949994641";
+    static String interstitialId(Context context) {
+        return context.getResources().getString(R.string.interstitialId);
+    }
+
+    static String topBannerId(Context context) {
+        return context.getResources().getString(R.string.topBannerId);
+    }
+
+    static String bottomBannerId(Context context) {
+        return context.getResources().getString(R.string.bottomBannerId);
+    }
+
+    static String inlineId(Context context) {
+        return context.getResources().getString(R.string.inlineId);
+    }
+
+    static String floatingId(Context context) {
+        return context.getResources().getString(R.string.floatingId);
+    }
 }
