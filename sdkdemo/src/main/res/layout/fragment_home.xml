@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/showInterstitialAd"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         app:flow_horizontalAlign="center"
@@ -18,7 +18,7 @@
         android:text="Show Interstitial AD" />
     <Button
         android:id="@+id/showInlineAd"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Show Inline AD"
         android:layout_marginTop="20dp"
@@ -27,13 +27,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/showInterstitialAd" />
     <Button
-        android:id="@+id/showBannerAd"
-        android:layout_width="wrap_content"
+        android:id="@+id/showTopBannerAd"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Show Banner AD"
+        android:text="Show Screen Top AD"
         android:layout_marginTop="20dp"
         app:flow_horizontalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/showInlineAd"/>
+    <Button
+        android:id="@+id/showBottomBannerAd"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Show Screen Bottom AD"
+        android:layout_marginTop="20dp"
+        app:flow_horizontalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showTopBannerAd"/>
+    <Button
+        android:id="@+id/showFloatingAd"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Show Floating AD"
+        android:layout_marginTop="20dp"
+        app:flow_horizontalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showBottomBannerAd"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,32 +1,24 @@
 package io.tenmax.sdkdemo.ui.home;
 
-import static io.tenmax.mobilesdk.TenMaxMobileSDK.cleanAd;
-import static io.tenmax.mobilesdk.TenMaxMobileSDK.interstitialAd;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import io.tenmax.mobilesdk.TenMaxAd;
 import io.tenmax.sdkdemo.R;
 import io.tenmax.sdkdemo.SupportedSpaces;
 import io.tenmax.sdkdemo.databinding.FragmentHomeBinding;
-import io.tenmax.sdkdemo.ui.SimpleAdSessionListener;
-import io.tenmax.sdkdemo.ui.SimpleInitiationCallback;
 import io.tenmax.sdkdemo.ui.dashboard.DashboardFragment;
-import io.tenmax.sdkdemo.ui.notifications.NotificationsFragment;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private TenMaxAd fullscreenAd;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =  new ViewModelProvider(this).get(HomeViewModel.class);
@@ -34,21 +26,12 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        SimpleAdSessionListener listener = new SimpleAdSessionListener(this.getContext());
-        SimpleInitiationCallback callback = new SimpleInitiationCallback(this.getContext());
-        this.fullscreenAd = interstitialAd(SupportedSpaces.interstitialId, this.getActivity(), listener, callback);
-        this.binding.showInterstitialAd.setOnClickListener((view) -> {
-            this.fullscreenAd.show();
-        });
+        this.binding.showInterstitialAd.setOnClickListener((view) -> showAd("fullscreen", SupportedSpaces.interstitialId));
+        this.binding.showInlineAd.setOnClickListener((view) -> showAd("inline", SupportedSpaces.inlineId));
+        this.binding.showTopBannerAd.setOnClickListener((view) -> showAd("topBanner", SupportedSpaces.topBannerId));
+        this.binding.showBottomBannerAd.setOnClickListener((view) -> showAd("bottomBanner", SupportedSpaces.bottomBannerId));
+        this.binding.showFloatingAd.setOnClickListener((view) -> showAd("floating", SupportedSpaces.floatingId));
 
-        this.binding.showInlineAd.setOnClickListener((view) -> {
-            Fragment dashboard = new DashboardFragment();
-            this.pushFragment(dashboard);
-        });
-        this.binding.showBannerAd.setOnClickListener((view) -> {
-            Fragment notifications = new NotificationsFragment();
-            this.pushFragment(notifications);
-        });
         return root;
     }
 
@@ -61,7 +44,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        cleanAd(this.fullscreenAd);
+    }
+
+    private void showAd(String type, String spaceId) {
+        Fragment dashboard = new DashboardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("spaceType", type);
+        bundle.putString("spaceId", spaceId);
+        dashboard.setArguments(bundle);
+        this.pushFragment(dashboard);
     }
 
     private void pushFragment(Fragment fragment) {
@@ -71,5 +62,8 @@ public class HomeFragment extends Fragment {
             .hide(this)
             .addToBackStack("home")
             .commit();
+        if (getActivity() instanceof AppCompatActivity) {
+            (((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
