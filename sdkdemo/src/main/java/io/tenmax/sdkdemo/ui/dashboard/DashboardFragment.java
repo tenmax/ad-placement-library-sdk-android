@@ -88,6 +88,10 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        cleanAd(this.presentingAd);
+        String type = getArguments().getString("spaceType");
+        // the floating AD would clean up resource on close button pressed
+        if (!"floating".equals(type)) {
+            cleanAd(this.presentingAd);
+        }
     }
 }
