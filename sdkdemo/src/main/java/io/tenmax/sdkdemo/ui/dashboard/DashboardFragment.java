@@ -36,25 +36,25 @@ public class DashboardFragment extends Fragment {
 
     interface AdInitializer {
 
-        TenMaxAd init(String spaceId, Activity activity, FragmentDashboardBinding binding, TenMaxAdSessionListener listener, TenMaxInitiationCallback<TenMaxAdSpace> callback);
+        TenMaxAd init(String spaceId, Fragment fragment, FragmentDashboardBinding binding, TenMaxAdSessionListener listener, TenMaxInitiationCallback<TenMaxAdSpace> callback);
     }
 
     private TenMaxAd presentingAd;
     private FragmentDashboardBinding binding;
     private final Map<String, AdInitializer> adInitializers = Map.of(
-        "inline", (spaceId, activity, binding, listener, callback) -> inlineAd(spaceId, activity, binding.inlineAd, options -> {
+        "inline", (spaceId, fragment, binding, listener, callback) -> inlineAd(spaceId, fragment.getActivity(), binding.inlineAd, options -> {
             options.listenSession(listener).monitorInitiation(callback);
         }),
-        "topBanner", (spaceId, activity, binding1, listener, callback) -> bannerAd(spaceId, activity, binding.topBanner, top, options -> {
+        "topBanner", (spaceId, fragment, binding1, listener, callback) -> bannerAd(spaceId, fragment.getActivity(), binding.topBanner, top, options -> {
             options.listenSession(listener).monitorInitiation(callback);
         }),
-        "bottomBanner", (spaceId, activity, binding1, listener, callback) -> bannerAd(spaceId, activity, binding.bottomBanner, bottom, options -> {
+        "bottomBanner", (spaceId, fragment, binding1, listener, callback) -> bannerAd(spaceId, fragment.getActivity(), binding.bottomBanner, bottom, options -> {
             options.listenSession(listener).monitorInitiation(callback);
         }),
-        "floating", (spaceId, activity, binding1, listener, callback) -> floatingAd(spaceId, activity, options -> {
+        "floating", (spaceId, fragment, binding1, listener, callback) -> floatingAd(spaceId, fragment, options -> {
             options.listenSession(listener).monitorInitiation(callback);
         }),
-        "fullscreen", (spaceId, activity, binding1, listener, callback) -> interstitialAd(spaceId, activity, options -> {
+        "fullscreen", (spaceId, fragment, binding1, listener, callback) -> interstitialAd(spaceId, fragment.getActivity(), options -> {
             options.listenSession(listener).monitorInitiation(callback);
         })
     );
@@ -70,7 +70,7 @@ public class DashboardFragment extends Fragment {
             String type = getArguments().getString("spaceType");
             AdInitializer initializer = adInitializers.get(type);
             if (initializer != null) {
-                this.presentingAd = initializer.init(spaceId, getActivity(), this.binding, listener, callback);
+                this.presentingAd = initializer.init(spaceId, this, this.binding, listener, callback);
             }
         }
         return root;
@@ -88,10 +88,6 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        String type = getArguments().getString("spaceType");
-        // the floating AD would clean up resource on close button pressed
-        if (!"floating".equals(type)) {
-            cleanAd(this.presentingAd);
-        }
+        cleanAd(this.presentingAd);
     }
 }
