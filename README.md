@@ -221,6 +221,90 @@ public class DashboardFragment extends Fragment {
 }
 ```
 
+[This is an experimental feature, cloud be changed in the later version.]
+You can let the inline AD to (aspect) full fill a container with fixed size.
+For example, the `inlineAdContainer` is a 300 x 200 fixed size container. 
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_600"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <!-- other UI elements-->
+    <FrameLayout
+        android:id="@+id/inlineAdContainer"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal">
+        <FrameLayout
+            android:id="@+id/inlineAd"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    <!-- other UI elements-->
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Then, when initiate the inline AD, you can configure it with a lambda to specify which container to fill.
+
+```java
+public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // other view setup code
+    this.inlineAd = inlineAd("{inline-space-id}", this.getActivity(), this.binding.inlineAd, (options) -> {
+        options.aspectFill(this.binding.inlineAdContainer);
+    });
+    return root;
+}
+```
+
+Note, to use the aspect fill, you need to ensure the container's aspect ratio is the same as the AD.
+If the aspect ratio does not match, if after scale, the calculated width or height exceeds the container's
+width or height, the AD could be cropped. You can know the case happened by listen the event (see the [callbacks and listener](#callback-and-listener) section).
+
+### Floating AD
+
+You can let an AD keep floating on your app **until the app user close it**.
+To show the floating app, call `floatingAd` with the fragment.
+This is recommended for developers who use Android Fragment system.
+however, for developers who only use Activity, there is another overloading method to call with the activity to show floating AD.
+
+```java
+public class DashboardFragment extends Fragment {
+
+    private TenMaxAd floatingAd;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // other view setup code
+        this.floatingAd = floatingAd("{floating-space-id}", this);
+        return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.floatingAd.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+        cleanAd(this.floatingAd);
+    }
+}
+
+```
+
+Note, because the AD would be always floating on the page (fragment/activity) until the user close it, calling `dispose` or `cleanAd` would not close the AD.
+Do worry the resource leak, when the AD is closed, SDK would clean the resources for you.
+
 ## Advanced topics
 
 ### Timing and Naming Convention
@@ -233,12 +317,26 @@ AD on different pages would have different prices. To collect needed information
 If you do not follow the convention and SDK can not collect the correct information, the SDK will refuse to show AD in the unexpected case.
 
 ### Callback and Listener
-Each method that shows AD has two optional parameters: listener and callback. The callback would be called immediately when the specified space ID is found or something wrong happened. You can provide a callback to know what happened during the setup.
+Each method that shows AD can configure optional listener and callback. For example,
+
+```java
+public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // other view setup code
+    this.inlineAd = inlineAd("{inline-space-id}", this.getActivity(), this.binding.inlineAd, (options) -> {
+        options.listenSession(listener)
+            .monitorInitiation(callback);
+    });
+    return root;
+}
+```
+
+The callback would be called immediately when the specified space ID is found or something wrong happened. You can provide a callback to know what happened during the setup.
 
 You can provide the listener to listen all the events of the entire presentation lifecycle. Here is a simple listener to listen to three important events:
 - `adViewableEventSent` - the user saw the AD for 1 second, and SDK would send viewable event to the TenMax server.
 - `adLoadingTimeout` - the AD loading timeout (maybe network is too slow) so the presentation is cancelled.
 - `adNotFound` - can not find an AD for the specified space so the presentation is cancelled.
+- `adViewAspectFillOversizing` - the AD try to scale and full fill the container, but the aspect ratio does not match, so width or height oversized 
 
 
 ```java
