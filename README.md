@@ -373,6 +373,23 @@ For most ADs, the presentation must be unique on the page. Thus, TenMax Mobile S
 
 Android publisher should provide the information that data their apps collect, including the data collected by third-party SDKs. For your convenience, TenMax SDK provides the information on its data collection in the [Data Collection Survey for TenMax SDK](Privacy.md).
 
+## app-ads.txt Support
+
+The app-ads.txt file is a standardized document listing authorized digital sellers, introduced by the IAB to enhance transparency and combat fraud in the advertising ecosystem. It ensures seller legitimacy, safeguarding against fraudulent activities and domain misrepresentation.
+
+Developers are required to host this file at the root of their website. Brand advertisers and demand-side platforms (DSPs) access and analyze this file to validate seller authenticity when purchasing ad inventory programmatically through exchanges, supply-side platforms (SSPs), or ad networks.
+
+Copy the app-ads.txt file into the root of the developer website so that it's findable in the location.
+
+### app-ads.txt
+```text
+google.com, pub-4338256439626145, DIRECT, f08c47fec0942fa0 
+google.com, pub-9467144491537745, DIRECT, f08c47fec0942fa0
+tenmax.io, fadcc2c833, DIRECT
+fout.jp, 1537, DIRECT
+fout.jp, 113, DIRECT
+```
+
 ## Issues and Contact
 
 If you have any issue when using TenMax Mobile SDK, please contact app_support@tenmax.io. We will help you as soon as possible.
