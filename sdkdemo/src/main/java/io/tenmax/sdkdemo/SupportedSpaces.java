@@ -23,4 +23,8 @@ public interface SupportedSpaces {
     static String floatingId(Context context) {
         return context.getResources().getString(R.string.floatingId);
     }
+
+    static String videoInlineId(Context context) {
+        return context.getResources().getString(R.string.videoInlineId);
+    }
 }

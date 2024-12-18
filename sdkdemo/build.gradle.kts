@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "io.tenmax.sdkdemo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.tenmax.sdkdemo"
@@ -52,6 +52,7 @@ android {
             resValue("string", "topBannerId", "aa7947ea8e104da3")
             resValue("string", "bottomBannerId", "2b07703707354bd6")
             resValue("string", "floatingId", "5417d8bf58b34bac")
+            resValue("string", "videoInlineId", "cdc8203a5167467d")
             resValue("string", "app_name", "TenMaxMobileSDKDemo (CHT)")
         }
         create("internal") {
@@ -94,6 +95,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.play.services.ads.identifier)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

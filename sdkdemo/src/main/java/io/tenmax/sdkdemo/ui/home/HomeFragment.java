@@ -5,6 +5,7 @@ import static io.tenmax.sdkdemo.SupportedSpaces.floatingId;
 import static io.tenmax.sdkdemo.SupportedSpaces.inlineId;
 import static io.tenmax.sdkdemo.SupportedSpaces.interstitialId;
 import static io.tenmax.sdkdemo.SupportedSpaces.topBannerId;
+import static io.tenmax.sdkdemo.SupportedSpaces.videoInlineId;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import io.tenmax.sdkdemo.R;
 import io.tenmax.sdkdemo.databinding.FragmentHomeBinding;
 import io.tenmax.sdkdemo.ui.dashboard.DashboardFragment;
+import io.tenmax.sdkdemo.ui.video.VideoFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -36,6 +38,7 @@ public class HomeFragment extends Fragment {
         this.binding.showTopBannerAd.setOnClickListener((view) -> showAd("topBanner", topBannerId(getContext())));
         this.binding.showBottomBannerAd.setOnClickListener((view) -> showAd("bottomBanner", bottomBannerId(getContext())));
         this.binding.showFloatingAd.setOnClickListener((view) -> showAd("floating", floatingId(getContext())));
+        this.binding.videoPausePictureAd.setOnClickListener((view) -> showVideoFragment(videoInlineId(getContext())));
 
         return root;
     }
@@ -58,6 +61,15 @@ public class HomeFragment extends Fragment {
         bundle.putString("spaceId", spaceId);
         dashboard.setArguments(bundle);
         this.pushFragment(dashboard);
+    }
+
+    private void showVideoFragment(String spaceId) {
+        Fragment videoFragment = new VideoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("spaceType", "inline");
+        bundle.putString("spaceId", spaceId);
+        videoFragment.setArguments(bundle);
+        this.pushFragment(videoFragment);
     }
 
     private void pushFragment(Fragment fragment) {
