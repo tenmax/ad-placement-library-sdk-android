@@ -332,7 +332,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
 
 The callback would be called immediately when the specified space ID is found or something wrong happened. You can provide a callback to know what happened during the setup.
 
-You can provide the listener to listen all the events of the entire presentation lifecycle. Here is a simple listener to listen to three important events:
+You can provide the listener to listen all the events of the entire presentation lifecycle. Here is a simple listener to listen to some events:
 - `adViewableEventSent` - the user saw the AD for 1 second, and SDK would send viewable event to the TenMax server.
 - `adLoadingTimeout` - the AD loading timeout (maybe network is too slow) so the presentation is cancelled.
 - `adNotFound` - can not find an AD for the specified space so the presentation is cancelled.
