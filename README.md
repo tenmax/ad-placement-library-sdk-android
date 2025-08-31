@@ -369,6 +369,37 @@ public class SimpleAdSessionListener implements TenMaxAdSessionListener {
 
 For most ADs, the presentation must be unique on the page. Thus, TenMax Mobile SDK would track the presentation requests. If SDK found the duplication, it would show a warning message for the app developer to fix the case. Also, TenMax would review your app to ensure you follow TenMax's rules.
 
+#### Duplication Rules by Ad Type
+
+Each ad type has specific duplication rules based on its presentation characteristics:
+
+##### Banner Ads
+- **Rule**: Only one banner ad can be displayed per position (top/bottom) per page
+- **Logic**:
+  - Maintains separate tracking for top and bottom banner positions
+  - Maps page names to space IDs for each position
+  - Prevents multiple banners at the same position on the same page
+  - Allows the same space on different pages or different positions
+
+##### Inline Ads
+- **Rule**: Prevents the same space from appearing multiple times across the app
+- **Logic**:
+  - Tracks space occurrences globally across all pages
+  - Prevents the same space from being shown on different pages
+  - Prevents the same space from being shown multiple times on the same page
+  - Once a space is displayed, it cannot be displayed again until removed
+
+##### Floating Ads
+- **Rule**: Only one floating ad can be active at a time
+- **Logic**:
+  - Prevents multiple floating ads from being displayed simultaneously
+
+##### Fullscreen/Interstitial Ads
+- **Rule**: No duplication restrictions
+- **Logic**:
+  - Fullscreen ads are exempt from duplication detection by design
+  - Can be displayed multiple times without restriction
+
 ## Google Privacy Survey for TenMax SDK
 
 Android publisher should provide the information that data their apps collect, including the data collected by third-party SDKs. For your convenience, TenMax SDK provides the information on its data collection in the [Data Collection Survey for TenMax SDK](Privacy.md).
